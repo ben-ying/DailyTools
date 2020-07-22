@@ -2,7 +2,6 @@ package com.yjh.dt.dailytools.view
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,10 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.yjh.dt.dailytools.R
-import java.util.*
+import com.yjh.dt.dailytools.view.base.BaseFragment
 
 
-class ToolListFragment : Fragment() {
+class ToolListFragment : BaseFragment() {
 
     private var columnCount = 1
 
