@@ -3,7 +3,6 @@ package com.yjh.dt.dailytools.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.yjh.dt.dailytools.R
-import com.yjh.dt.dailytools.view.dummy.DummyContent
 import org.jetbrains.annotations.NotNull
 
 class MainActivity : AppCompatActivity(), ToolListFragment.OnListFragmentInteractionListener {
@@ -21,7 +20,11 @@ class MainActivity : AppCompatActivity(), ToolListFragment.OnListFragmentInterac
         supportFragmentManager.beginTransaction().show(mToolListFragment!!);
     }
 
-    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
-        TODO("Not yet implemented")
+    override fun onListFragmentInteraction(position: Int) {
+        when(position) {
+            0 -> {
+
+            }
+        }
     }
 }

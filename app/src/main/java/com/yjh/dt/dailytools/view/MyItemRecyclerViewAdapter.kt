@@ -8,12 +8,11 @@ import android.widget.TextView
 
 import com.yjh.dt.dailytools.R
 import com.yjh.dt.dailytools.view.ToolListFragment.OnListFragmentInteractionListener
-import com.yjh.dt.dailytools.view.dummy.DummyContent.DummyItem
 
 import kotlinx.android.synthetic.main.fragment_item.view.*
 
 class MyItemRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
+    private val mValues: List<String>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -21,10 +20,8 @@ class MyItemRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
+            val position = v.tag as Int
+            mListener?.onListFragmentInteraction(position)
         }
     }
 
@@ -36,11 +33,10 @@ class MyItemRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.mContentView.text = item
 
         with(holder.mView) {
-            tag = item
+            tag = position
             setOnClickListener(mOnClickListener)
         }
     }
@@ -48,7 +44,6 @@ class MyItemRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
         val mContentView: TextView = mView.content
 
         override fun toString(): String {

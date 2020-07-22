@@ -10,18 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.yjh.dt.dailytools.R
+import java.util.*
 
-import com.yjh.dt.dailytools.view.dummy.DummyContent
-import com.yjh.dt.dailytools.view.dummy.DummyContent.DummyItem
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [ToolListFragment.OnListFragmentInteractionListener] interface.
- */
 class ToolListFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 1
 
     private var listener: OnListFragmentInteractionListener? = null
@@ -47,7 +40,8 @@ class ToolListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyItemRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                val toolList: List<String> = resources.getStringArray(R.array.tool_options).toList();
+                adapter = MyItemRecyclerViewAdapter(toolList, listener)
             }
         }
         return view
@@ -67,28 +61,13 @@ class ToolListFragment : Fragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(position: Int)
     }
 
     companion object {
-
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             ToolListFragment().apply {
