@@ -1,5 +1,10 @@
 package com.yjh.dt.dailytools.di.module
 
+import android.app.Application
+import androidx.room.Room
+import com.yjh.dt.dailytools.MyApplication
+import com.yjh.dt.dailytools.db.CurrencyDao
+import com.yjh.dt.dailytools.db.MyDatabase
 import com.yjh.dt.dailytools.repository.ExchangeRepository
 import com.yjh.dt.dailytools.retrofit.Webservice
 import com.yjh.dt.dailytools.viewmodel.ExchangeViewModel
@@ -9,8 +14,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+
+
+
 @Module
-class ExchangeModule {
+class ExchangeModule constructor(val myApplication: Application) {
 
     @Provides
     fun provideWebservice(): Webservice {
@@ -23,8 +31,8 @@ class ExchangeModule {
     }
 
     @Provides
-    fun provideExchangeRepository(webservice: Webservice): ExchangeRepository {
-        return ExchangeRepository(webservice)
+    fun provideExchangeRepository(webservice: Webservice, dao: CurrencyDao): ExchangeRepository {
+        return ExchangeRepository(webservice, dao)
     }
 
     @Provides

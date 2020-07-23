@@ -11,5 +11,6 @@ class HttpResponse<T> constructor(
     @SerializedName("result")
     val result: T
 ) {
-
+    val isSuccessful: Boolean
+        get() = code == 200
 }
