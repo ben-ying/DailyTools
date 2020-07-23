@@ -5,7 +5,7 @@ import com.yjh.dt.dailytools.R
 import com.yjh.dt.dailytools.view.base.BaseActivity
 import org.jetbrains.annotations.NotNull
 
-class MainActivity : BaseActivity(), ToolListFragment.OnListFragmentInteractionListener {
+class MainActivity: BaseActivity(), ToolListFragment.OnListFragmentInteractionListener {
 
     @NotNull
     private lateinit var mToolListFragment : ToolListFragment

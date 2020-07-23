@@ -1,22 +1,27 @@
 package com.yjh.dt.dailytools.view
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.yjh.dt.dailytools.R
+import com.yjh.dt.dailytools.di.component.DaggerExchangeComponent
+import com.yjh.dt.dailytools.room.Currency
 import com.yjh.dt.dailytools.view.base.BaseFragment
 import com.yjh.dt.dailytools.viewmodel.ExchangeViewModel
+import javax.inject.Inject
 
-class ExchangeFragment : BaseFragment() {
+class ExchangeFragment: BaseFragment() {
+
+    @Inject
+    lateinit var viewModel: ExchangeViewModel
 
     companion object {
         fun newInstance() = ExchangeFragment()
     }
-
-    private lateinit var viewModel: ExchangeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +32,13 @@ class ExchangeFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ExchangeViewModel::class.java)
-        // TODO: Use the ViewModel
+        DaggerExchangeComponent.builder().build().inject(this)
+        viewModel.currencyList.observe(this, Observer {
+            setCurrencyList(it);
+        })
     }
 
+    private fun setCurrencyList(currencyList: List<Currency>)  {
+        Log.d("TEST123", currencyList.size.toString());
+    }
 }
