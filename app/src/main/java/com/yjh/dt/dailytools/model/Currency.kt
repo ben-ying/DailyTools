@@ -1,4 +1,4 @@
-package com.yjh.dt.dailytools.room
+package com.yjh.dt.dailytools.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,10 +1,9 @@
 package com.yjh.dt.dailytools.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.yjh.dt.dailytools.repository.ExchangeRepository
-import com.yjh.dt.dailytools.room.Currency
+import com.yjh.dt.dailytools.model.Currency
 import javax.inject.Inject
 
 class ExchangeViewModel @Inject constructor(

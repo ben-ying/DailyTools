@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.yjh.dt.dailytools.retrofit.Webservice
-import com.yjh.dt.dailytools.room.Currency
+import com.yjh.dt.dailytools.model.Currency
+import com.yjh.dt.dailytools.model.HttpResponse
+import com.yjh.dt.dailytools.model.HttpResponseResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -13,24 +15,21 @@ import javax.inject.Singleton
 
 @Singleton
 class ExchangeRepository @Inject constructor(
-//    private val mWebservice: Webservice,
-//    private var mCurrencyListLiveData: LiveData<List<Currency>>?
+    private val mWebservice: Webservice
 ){
     fun getCurrencyList(): LiveData<List<Currency>> {
-//        if (mCurrencyListLiveData != null) {
-//            return mCurrencyListLiveData as LiveData<List<Currency>>
-//        }
         val data = MutableLiveData<List<Currency>>()
-//        mCurrencyListLiveData = data
-//        mWebservice.getCurrencyList().enqueue(object : Callback<List<Currency>> {
-//            override fun onResponse(call: Call<List<Currency>>, response: Response<List<Currency>>) {
-//                data.value = response.body()
-//                Log.d("test1234", data.value.toString())
-//            }
-//            override fun onFailure(call: Call<List<Currency>>, t: Throwable) {
-//                TODO()
-//            }
-//        })
+        mWebservice.getCurrencyList().enqueue(
+            object : Callback<HttpResponse<HttpResponseResult<List<Currency>>>> {
+            override fun onResponse(call: Call<HttpResponse<HttpResponseResult<List<Currency>>>>,
+                                    response: Response<HttpResponse<HttpResponseResult<List<Currency>>>>) {
+                data.value = response.body()?.result?.results
+            }
+            override fun onFailure(call: Call<HttpResponse<HttpResponseResult<List<Currency>>>>,
+                                   t: Throwable) {
+                Log.d("test1234", call.request().url().toString() + ": " + t.message)
+            }
+        })
         return data
     }
 }

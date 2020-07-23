@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 
 import com.yjh.dt.dailytools.R
 import com.yjh.dt.dailytools.di.component.DaggerExchangeComponent
-import com.yjh.dt.dailytools.room.Currency
+import com.yjh.dt.dailytools.model.Currency
 import com.yjh.dt.dailytools.view.base.BaseFragment
 import com.yjh.dt.dailytools.viewmodel.ExchangeViewModel
 import javax.inject.Inject
