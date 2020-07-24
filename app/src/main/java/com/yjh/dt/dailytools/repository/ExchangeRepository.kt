@@ -6,18 +6,15 @@ import com.yjh.dt.dailytools.db.CurrencyDao
 import com.yjh.dt.dailytools.model.Currency
 import com.yjh.dt.dailytools.model.HttpResponse
 import com.yjh.dt.dailytools.model.HttpResponseResult
-import com.yjh.dt.dailytools.retrofit.ApiResponse
-import com.yjh.dt.dailytools.retrofit.NetworkBoundResource
-import com.yjh.dt.dailytools.retrofit.Webservice
-import com.yjh.dt.dailytools.util.RateLimiter
-import java.util.concurrent.TimeUnit
+import com.yjh.dt.dailytools.retrofit.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ExchangeRepository @Inject constructor(
     private val mWebservice: Webservice,
-    private val mDao: CurrencyDao
+    private val mDao: CurrencyDao,
+    private val appExecutors: AppExecutors
 //    private val mRepoListRateLimit: RateLimiter<String?>? = RateLimiter(30, TimeUnit.MINUTES)
 ){
 //    fun getCurrencyList(): LiveData<List<Currency>> {
@@ -36,15 +33,21 @@ class ExchangeRepository @Inject constructor(
 //        return data
 //    }
 
-    fun getCurrencyList(): LiveData<List<Currency>> {
-        return object : NetworkBoundResource<List<Currency>, HttpResponse<HttpResponseResult<List<Currency>>>>() {
-            override fun saveCallResult(item: HttpResponse<HttpResponseResult<List<Currency>>>) {
-                mDao.saveAll(item.result.results)
+    fun getCurrencyList(): LiveData<Resource<List<Currency>>> {
+        return object : NetworkBoundResource<List<Currency>,
+                HttpResponse<HttpResponseResult<List<Currency>>>>(appExecutors) {
+            override fun saveCallResult(item: HttpResponse<HttpResponseResult<List<Currency>>>?) {
+                if (item != null) {
+                    mDao.saveAll(item.result.results)
+                } else {
+                    Log.d("Test1234", "Item is empty!!!")
+                }
             }
 
             override fun shouldFetch(data: List<Currency>?): Boolean {
-                val shouldFetch = data == null
-                return shouldFetch
+//                val shouldFetch = (data == null || data.isEmpty())
+//                return shouldFetch
+                return true
             }
 
             override fun loadFromDb(): LiveData<List<Currency>> {
@@ -59,6 +62,7 @@ class ExchangeRepository @Inject constructor(
             override fun onFetchFailed() {
                 super.onFetchFailed()
             }
+
         }.asLiveData()
     }
 }

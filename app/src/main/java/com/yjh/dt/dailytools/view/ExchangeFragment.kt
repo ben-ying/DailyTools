@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer
 
 import com.yjh.dt.dailytools.R
 import com.yjh.dt.dailytools.di.component.DaggerExchangeComponent
+import com.yjh.dt.dailytools.di.module.ExchangeModule
 import com.yjh.dt.dailytools.model.Currency
+import com.yjh.dt.dailytools.retrofit.Resource
 import com.yjh.dt.dailytools.view.base.BaseFragment
 import com.yjh.dt.dailytools.viewmodel.ExchangeViewModel
 import javax.inject.Inject
@@ -32,13 +34,15 @@ class ExchangeFragment: BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        DaggerExchangeComponent.builder().build().inject(this)
+
+
+        DaggerExchangeComponent.builder().exchangeModule(ExchangeModule(activity!!.application)).build().inject(this)
         viewModel.currencyList.observe(this, Observer {
             setCurrencyList(it);
         })
     }
 
-    private fun setCurrencyList(currencyList: List<Currency>)  {
-        Log.d("TEST123", currencyList.size.toString());
+    private fun setCurrencyList(currencyList: Resource<List<Currency>>) {
+        Log.d("TEST123", currencyList.toString());
     }
 }
